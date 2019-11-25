@@ -12,7 +12,7 @@ def regex_find(js_content, pattern, occurrences=1):
     logging.info(f"查找：{pattern}")
     match_result = re.findall(pattern.encode("utf-8"), js_content)
     if len(match_result) != occurrences:
-        raise Exception(f"找不到`{pattern}`，可能补丁已执行过，需要更新补丁脚本。")
+        raise Exception(f"找不到`{pattern}`，可能补丁已执行过，或者需要更新补丁脚本。")
     else:
         return match_result[0]
 
