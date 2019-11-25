@@ -4,13 +4,13 @@
 
 ## 介绍
 
-* `font_patch.py`：用来设定终端中文字体的补丁脚本。
-* `fix_bugs.py`：用来修复一些bug的补丁脚本。
+* `font_patch.py`：用于设定终端中文字体
+* `fix_bugs_*.py`：用于修复一些bug
 
 ## 使用方法
 需要Python 3.6及以上环境，直接执行即可使用。目前仅支持在Windows下执行。
 
-`font_patch.py`使用交互式文本UI，可以重复执行；`fix_bugs.py`则不需要交互，不能重复执行。
+`font_patch.py`使用交互式文本UI，可以重复执行；`fix_bugs_*.py`则不需要交互，不能重复执行。
 
 ## 大致原理
 Termius使用Electron框架，App的相关代码和资源大部分包含在`(安装目录)/resources/app.asar`中。`app.asar`是一个Electron ASAR格式的档案包，补丁脚本会在`app.asar`中读取要修改的文件，然后查找修改目标；修改完成后，脚本会将做出的改动更新到`app.asar`中。
@@ -24,9 +24,9 @@ Termius使用Electron框架，App的相关代码和资源大部分包含在`(安
 
 此系列补丁当前已测试过适用于Termius 5.0.6。
 
-当前`fix_bugs.py`修复的bug：
+`fix_bugs_5.0.6.py`修复的bug：
 
 * 重复处理的按键事件的bug（例如启用了^H退格时按一下退格发送两个^H）
 * Snippets相关快捷键不能设置的bug
 
-`fix_bugs.py`还会加入一个用于方便调试的额外辅助功能：用`Termius.exe dev`启动时会打开开发人员工具。
+`fix_bugs_*.py`还会加入一个用于方便调试的额外辅助功能：用`Termius.exe dev`启动时会打开开发人员工具。
