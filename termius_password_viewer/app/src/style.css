@@ -1,0 +1,15 @@
+body {
+    font-family: 'Microsoft YaHei', sans-serif;
+    padding: 24pt 36pt;
+}
+
+#result {
+    width: 100%
+}
+
+code {
+    background-color: aliceblue;
+    font-size: 90%;
+    margin: 1pt;
+    padding: 1pt;
+}

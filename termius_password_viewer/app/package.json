@@ -1,0 +1,19 @@
+{
+  "name": "Termius",
+  "version": "0.1.0",
+  "description": "查看Termius保存的密码的工具",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "YYY",
+  "license": "MIT",
+  "dependencies": {
+    "jquery": "^3.4.1",
+    "purecss": "^1.0.1",
+    "rncryptor-js": "github:alexey-sh/rncryptor-js"
+  },
+  "devDependencies": {
+    "electron": "^6.0.12"
+  }
+}
