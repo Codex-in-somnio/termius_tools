@@ -1,3 +1,7 @@
+# Termius Patches
+
+用于Termius的一些补丁脚本。
+
 ## 介绍
 
 * `font_patch.py`：用来设定终端中文字体的补丁脚本。
