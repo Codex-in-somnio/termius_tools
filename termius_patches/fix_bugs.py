@@ -1,3 +1,5 @@
+#!python3
+
 import sys
 import json
 import re
