@@ -1,5 +1,7 @@
 # Termius Password Viewer
 
+**⚠ 好像Termius更新了加密方式，此工具已经失效了。**
+
 查看Termius保存的密码的工具。
 
 ## 使用方法
