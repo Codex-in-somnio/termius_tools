@@ -6,6 +6,7 @@
 
 * `font_patch.py`：用于设定终端中文字体
 * `fix_bugs_*.py`：用于修复一些bug
+* `add_features.py`：用于添加一些实用功能
 
 ## 使用方法
 需要Python 3.6及以上环境，直接执行即可使用。目前仅支持在Windows下执行。
@@ -29,4 +30,9 @@ Termius使用Electron框架，App的相关代码和资源大部分包含在`(安
 * 重复处理的按键事件的bug（例如启用了^H退格时按一下退格发送两个^H）
 * Snippets相关快捷键不能设置的bug
 
-`fix_bugs_*.py`还会加入一个用于方便调试的额外辅助功能：用`Termius.exe dev`启动时会打开开发人员工具。
+`add_features.py`加入的功能：
+
+* 用`Termius.exe dev`启动时会打开开发人员工具；
+* 在Hosts页输入label直接连接（不支持重复的label或空label的情况）；
+* 在Hosts页输入框中按方向键下`↓`会自动定位至候选的第一项；
+* 按Tab定位时会高亮显示选中的元素。

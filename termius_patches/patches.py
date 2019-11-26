@@ -1,0 +1,135 @@
+#!python3
+
+import sys
+import json
+import re
+import logging
+
+from patch_asar import PatchAsar
+
+
+def regex_find(js_content, pattern, occurrences=1):
+    logging.info(f"查找：{pattern}")
+    match_result = re.findall(pattern.encode("utf-8"), js_content)
+    if len(match_result) != occurrences:
+        raise Exception(f"找不到`{pattern}`，可能补丁已执行过，或者需要更新补丁脚本。")
+    else:
+        return match_result[0]
+
+
+def add_dev_console_switch(js_content):
+    pattern = r"this\.browserWindow=new .\.BrowserWindow\(.\)," + \
+              r".\.manage\(this\.browserWindow\);"
+    append = b"""
+        if (process.argv.length > 1 && process.argv[1] == "dev")
+            this.browserWindow.webContents.openDevTools();
+        """.replace(b"\n", b"").replace(b"\r", b"")
+    found = regex_find(js_content, pattern)
+    return js_content.replace(found, found + append, 1)
+
+
+def fix_shortcut_settings(js_content):
+    pattern = r"buildListOfTypeSpecificShortcutArgs\(.\){.*}"
+
+    found = regex_find(js_content, pattern)
+
+    sub_find = r"this\.availableActions\(\)"
+    sub_replace = b"this.availableActions(true)"
+    sub_found = regex_find(found, sub_find, 2)
+
+    patched = found.replace(sub_found, sub_replace, 2)
+    return js_content.replace(found, patched)
+
+
+def fix_duplicate_key_event_handling(js_content):
+    pattern = r"this\._customKeyEventHandler&&!1===" \
+              r"this\._customKeyEventHandler\(.\)\|\|"
+    found = regex_find(js_content, pattern)
+    patched = b"/*{" + found + b"}*/"
+    return js_content.replace(found, patched, 1)
+
+
+def add_enter_to_connect(js_content):
+    # 一直启用connect按钮
+    pattern_1 = r'disabled:!\("ssh"===A\.substring\(0,3\)\),'
+    found_1 = regex_find(js_content, pattern_1)
+    js_content = js_content.replace(found_1,
+                                    b"/*" + found_1 + b"*/")
+
+    # 输入label直接连接
+    pattern_2 = r"this,\"quickConnect\",A=>{A\.preventDefault\(\);" \
+        r"try{this\.connectToHost\(function\(A\){const e=..\(\)\(" \
+        r"A\.trim\(\)\.split\(\/\\s\+\/\)\),.=new ..;"
+
+    found_2 = regex_find(js_content, pattern_2)
+    sub_pat_1 = b"A.preventDefault();"
+    sub_pat_1_append = b"let hosts = this.props.hosts;"
+    replace_2 = found_2.replace(sub_pat_1, sub_pat_1 + sub_pat_1_append)
+    pattern_2_append = b"""
+        var target_host;
+        if (e._.length == 1) {
+            for (const host of hosts) {
+                if (host.label.toLowerCase() == e._[0].toLowerCase()) {
+                    return host;
+                }
+            }
+        }
+        """.replace(b"\n", b"").replace(b"\r", b"")
+    replace_2 += pattern_2_append
+    js_content = js_content.replace(found_2, replace_2)
+    return js_content
+
+
+def add_tab_highlight_js(js_content):
+    js_content += b"""
+        document.addEventListener("keydown", (e) => {
+            if (e.code == "Tab") {
+                document.body.classList.add("indicate-tab");
+            } 
+        });
+
+        document.addEventListener("mousedown", (e) => {
+            document.body.classList.remove("indicate-tab");
+        });
+        """
+    return js_content
+
+
+def add_tab_highlight_css(css_content):
+    css_content += b"""
+        .indicate-tab *:focus {
+            box-shadow:inset 0 0 8px Highlight !important;
+        }
+        """
+    return css_content
+
+
+def add_arrowdown_shortcut_connect(js_content):
+    pattern = r'placeholder:"Find a host or ssh user@hostname\.\.\.",'
+    found = regex_find(js_content, pattern)
+    append = b"""
+            onKeyDown: event => {
+                if (event.keyCode == 40) {
+                    var listDiv = event.target.parentNode.parentNode.parentNode.nextSibling.nextSibling.querySelector(".ReactVirtualized__Grid");
+                    var firstSession = listDiv.children[0].children[1].children[0];
+                    listDiv.focus();
+                    firstSession.click();
+                    event.preventDefault();
+                }
+            },
+        """
+    return js_content.replace(found, found + append, 1)
+
+
+def do_patch(patches):
+    logging.basicConfig(level=logging.DEBUG,
+                        format="%(levelname)-6s %(message)s")
+    patch = PatchAsar(logger=logging)
+    for file_path in patches:
+        content = patch.get_file_content(file_path)
+        for patch_func in patches[file_path]:
+            content = patch_func(content)
+        patch.update_file(file_path, content)
+    patch.make_backup()
+    patch.write_asar_file()
+    logging.info("完成！")

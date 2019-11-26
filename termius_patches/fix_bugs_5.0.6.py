@@ -1,16 +1,15 @@
 #!python3
 
-import fix_bugs
+import patches
 
-patches = {
-    ("js", "entry.js"): [fix_bugs.fix_shortcut_settings,
-                         fix_bugs.fix_duplicate_key_event_handling],
-    ("js", "main.js"): [fix_bugs.add_dev_console_switch]
+patches_list = {
+    ("js", "entry.js"): [patches.fix_shortcut_settings,
+                         patches.fix_duplicate_key_event_handling]
 }
 
 
 def main():
-    fix_bugs.do_patch(patches)
+    patches.do_patch(patches_list)
 
 
 if __name__ == "__main__":
