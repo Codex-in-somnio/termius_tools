@@ -1,0 +1,1 @@
+from patches.patch_asar import PatchAsar, do_patch

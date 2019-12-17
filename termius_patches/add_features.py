@@ -1,6 +1,7 @@
 #!python3
 
-import patches
+from patches import patches
+from patches import do_patch
 
 patches_list = {
     ("js", "main.js"): [patches.add_dev_console_switch],
@@ -12,7 +13,7 @@ patches_list = {
 
 
 def main():
-    patches.do_patch(patches_list)
+    do_patch(patches_list)
 
 
 if __name__ == "__main__":

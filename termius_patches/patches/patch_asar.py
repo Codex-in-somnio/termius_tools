@@ -1,5 +1,3 @@
-#!python3
-
 import struct
 import json
 import os
@@ -17,8 +15,12 @@ class PatchAsar:
 
     backup_filename_base = "app.asar.bak"
 
-    def __init__(self, logger=logging):
-        self.logger = logger
+    def __init__(self, logger=None):
+        if logger is not None:
+            self.logger = logger
+        else:
+            self.logger = getLogger()
+
         self.logger.info(f"打开ASAR：{self.asar_file_path}")
         with open(self.asar_file_path, "rb") as asar_file:
             asar_file.seek(4)
@@ -111,3 +113,32 @@ class PatchAsar:
         except OSError as e:
             self.logger.error(f"写入文件'{self.asar_file_path}'失败。")
             raise e
+
+
+def getLogger(debug=True):
+    logger = logging.getLogger("termius_patches")
+    formatter = logging.Formatter("%(levelname)-6s %(message)s")
+    handler = logging.StreamHandler()
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+    if debug:
+        logger.setLevel(logging.DEBUG)
+    else:
+        logger.setLevel(logging.INFO)
+    return logger
+
+
+def do_patch(patches):
+    """
+    传入一个字典：{(文件路径元组): patches里定义的补丁函数}
+    """
+    logger = getLogger()
+    patch = PatchAsar(logger=logger)
+    for file_path in patches:
+        content = patch.get_file_content(file_path)
+        for patch_func in patches[file_path]:
+            content = patch_func(content)
+        patch.update_file(file_path, content)
+    patch.make_backup()
+    patch.write_asar_file()
+    logging.info("完成！")

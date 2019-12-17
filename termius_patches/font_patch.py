@@ -4,7 +4,7 @@ import sys
 import json
 import re
 
-from patch_asar import PatchAsar
+from patches import PatchAsar
 
 DEFAULT_FALLBACK = "Microsoft YaHei"
 DEFAULT_ADD = "Source Code Pro, Microsoft YaHei"

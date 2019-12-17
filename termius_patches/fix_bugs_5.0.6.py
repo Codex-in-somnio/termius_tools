@@ -1,6 +1,7 @@
 #!python3
 
-import patches
+from patches import patches
+from patches import do_patch
 
 patches_list = {
     ("js", "entry.js"): [patches.fix_shortcut_settings,
@@ -9,7 +10,7 @@ patches_list = {
 
 
 def main():
-    patches.do_patch(patches_list)
+    do_patch(patches_list)
 
 
 if __name__ == "__main__":
