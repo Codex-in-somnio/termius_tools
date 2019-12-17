@@ -23,12 +23,7 @@ Termius使用Electron框架，App的相关代码和资源大部分包含在`(安
 
 ## 备注
 
-此系列补丁当前已测试过适用于Termius 5.0.6。
-
-`fix_bugs_5.0.6.py`修复的bug：
-
-* 重复处理的按键事件的bug（例如启用了^H退格时按一下退格发送两个^H）
-* Snippets相关快捷键不能设置的bug
+此系列补丁当前已测试过适用于Termius 5.1.1。
 
 `add_features.py`加入的功能：
 
@@ -36,3 +31,12 @@ Termius使用Electron框架，App的相关代码和资源大部分包含在`(安
 * 在Hosts页输入label直接连接（不支持重复的label或空label的情况）；
 * 在Hosts页输入框中按方向键下`↓`会自动定位至候选的第一项；
 * 按Tab定位时会高亮显示选中的元素。
+
+`fix_bugs_5.1.1.py`修复的bug：
+
+* 重复处理的按键事件的bug（例如启用了^H退格时按一下退格发送两个^H）
+
+`fix_bugs_5.0.6.py`修复的bug：
+
+* 重复处理的按键事件的bug（例如启用了^H退格时按一下退格发送两个^H）
+* Snippets相关快捷键不能设置的bug
