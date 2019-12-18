@@ -52,6 +52,13 @@ def fix_duplicate_key_event_handling(js_content):
     patched = b"/*{" + found + b"}*/"
     return js_content.replace(found, patched, 1)
 
+def fix_pane2_overflow(js_content):
+    pattern = r'pane2:{flex:"1",height:"100%",position:"relative",overflowX:"hidden"},'
+    found = regex_find(js_content, pattern)
+    patched = found.replace(b',overflowX:"hidden"', b'')
+    return js_content.replace(found, patched)
+
+
 
 def add_enter_to_connect(js_content):
     # 一直启用connect按钮
