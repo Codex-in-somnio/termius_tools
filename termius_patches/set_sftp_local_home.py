@@ -34,7 +34,7 @@ if __name__ == "__main__":
     if not args.home:
         exit()
 
-    new_home_path = args.home.replace('"', '\\"')
+    new_home_path = args.home.replace('"', '\\"').replace("\\", "\\\\")
     logging.info(f"新的HOME目录路径：{new_home_path}")
 
     new_get_home_path = \
