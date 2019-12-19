@@ -7,11 +7,18 @@
 * `font_patch.py`：用于设定终端中文字体
 * `fix_bugs_*.py`：用于修复一些bug
 * `add_features.py`：用于添加一些实用功能
+* `set_sftp_local_home.py`：用于设置SFTP的本地主目录
 
 ## 使用方法
 需要Python 3.6及以上环境，直接执行即可使用。目前仅支持在Windows下执行。
 
-`font_patch.py`使用交互式文本UI，可以重复执行；`fix_bugs_*.py`则不需要交互，不能重复执行。
+* `font_patch.py`使用交互式文本UI，可以重复执行；
+* `fix_bugs_*.py`和`add_features.py`不需要交互，直接执行即可，不能重复执行；
+* `set_sftp_local_home.py`接受一个参数，为要设置的主目录路径，支持中文，用法如：
+  ```
+  .\set_sftp_local_home.py D:\SomeFolder
+  ```
+  如果不给参数，则只打印当前的主目录值。
 
 ## 大致原理
 Termius使用Electron框架，App的相关代码和资源大部分包含在`(安装目录)/resources/app.asar`中。`app.asar`是一个Electron ASAR格式的档案包，补丁脚本会在`app.asar`中读取要修改的文件，然后查找修改目标；修改完成后，脚本会将做出的改动更新到`app.asar`中。
