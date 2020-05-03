@@ -69,7 +69,7 @@ def add_enter_to_connect(js_content):
 
     # 输入label直接连接
     pattern_2 = r"this,\"quickConnect\",.=>{.\.preventDefault\(\);" \
-        r"try{this\.connectToHost\(function\(.\){const .=..\(\)\(" \
+        r"const .=function\(.\){const .=..\(\)\(" \
         r".\.trim\(\)\.split\(\/\\s\+\/\)\),.=new ..;"
 
     found_2 = regex_find(js_content, pattern_2)

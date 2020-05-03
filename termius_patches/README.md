@@ -30,7 +30,7 @@ Termius使用Electron框架，App的相关代码和资源大部分包含在`(安
 
 ## 备注
 
-此系列补丁当前已测试过适用于Termius 5.1.1。
+此系列补丁（包括`fix_bugs_*.py`中最新的）当前已测试过适用于Termius 5.9.2。
 
 `add_features.py`加入的功能：
 
@@ -39,9 +39,14 @@ Termius使用Electron框架，App的相关代码和资源大部分包含在`(安
 * 在Hosts页输入框中按方向键下`↓`会自动定位至候选的第一项；
 * 按Tab定位时会高亮显示选中的元素。
 
+`fix_bugs_5.6.1.py`修复的bug：
+
+* 重复处理的按键事件的bug（例如启用了^H退格时按一下退格发送两个^H）
+
 `fix_bugs_5.1.1.py`修复的bug：
 
 * 重复处理的按键事件的bug（例如启用了^H退格时按一下退格发送两个^H）
+* 终端窗口Overflow的bug
 
 `fix_bugs_5.0.6.py`修复的bug：
 
