@@ -9,7 +9,7 @@
   "author": "YYY",
   "license": "MIT",
   "dependencies": {
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "purecss": "^1.0.1",
     "rncryptor-js": "github:alexey-sh/rncryptor-js"
   },
